@@ -50,20 +50,15 @@ function prepareSummary() {
 function validateAndParseArtworkData(artwork) {
     let errorCount = 0;
     if (!artwork) {
-        console.log("no data")
         return false;
     }
     if (artwork.title === "") {
         ++errorCount;
-        console.log("no title")
     }
     if (artwork.artist === "") {
-        console.log("no artist")
         ++errorCount;
     }
-    console.log(artwork.year !=="","YEAR", parseInt(artwork.year));
     if (artwork.year !== "" && isNaN(artwork.year)) {
-        console.log("no year", artwork.year)
         if (artwork.year !== "") {
             artwork.year = NaN;
         }
@@ -72,12 +67,10 @@ function validateAndParseArtworkData(artwork) {
         artwork.year = parseInt(artwork.year);
     }
     if (parseFloat(artwork.price) < 0) {
-        console.log("no price", artwork.price)
         ++errorCount;
     } else {
         artwork.price = parseFloat(artwork.price);
     }
-    console.log(errorCount,"Parsed Artwork", artwork);
     if (errorCount < 1)
     {
         formatSummary(artwork);
@@ -126,7 +119,6 @@ function formatSummary(artwork) {
     } else if (artwork.description!==""){
         str += "Description: " + artwork.description;
     }
-    console.log("formatSummary:", str);
     document.getElementById("summary").value=str;
 
 //[Description: {artwork.description}]
