@@ -25,7 +25,14 @@ function prepareSummary() {
         description: document.getElementById("description").value,
     }
     document.forms[0].summary.value = "";
-    return validateAndParseArtworkData(artwork);
+    if (validateAndParseArtworkData(artwork))
+    {
+        formatSummary(artwork);
+
+    } else {
+        document.forms[0].summary.value = "";
+    }
+    return true;
 }
 
 /**
@@ -58,26 +65,31 @@ function validateAndParseArtworkData(artwork) {
     if (artwork.artist === "") {
         ++errorCount;
     }
-    if (artwork.year !== "" && isNaN(artwork.year)) {
-        if (artwork.year !== "") {
-            artwork.year = NaN;
-        }
-        ++errorCount;
-    } else {
-        artwork.year = parseInt(artwork.year);
-    }
-    if (parseFloat(artwork.price) < 0) {
-        ++errorCount;
-    } else {
-        artwork.price = parseFloat(artwork.price);
-    }
-    if (errorCount < 1)
+    if (artwork.year === "")
     {
-        formatSummary(artwork);
-        return true;
+        artwork.year = NaN;
+    }else if (isNaN(artwork.year)) {
+        ++errorCount;
     } else {
-        return false;
-    }    
+        const year = parseInt(artwork.year);
+        if (year > 0)
+        {
+            artwork.year = year;
+        } else {
+            ++errorCount;
+        }
+    }
+    if (isNaN(artwork.price) ||parseFloat(artwork.price) < 0) {
+        ++errorCount;
+    } else {
+        const price = parseFloat(artwork.price);
+        if (price < 0) {
+            ++errorCount;
+        } else {
+            artwork.price = price;
+        }
+    }
+    return (errorCount < 1);
 }
 
 /**
@@ -105,9 +117,10 @@ function validateAndParseArtworkData(artwork) {
  */
 function formatSummary(artwork) {
     const price = parseFloat(artwork.price).toFixed(2);
-    artwork.artist= (artwork.artist+"").toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
-    let str = `${artwork.title}<br>by ${artwork.artist}<br>`;
-    if (artwork.year !=="")
+    artwork.artist = (artwork.artist + "").toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+    const title = (artwork.title + "").toUpperCase();
+    let str = `${title}<br>by ${artwork.artist}<br>`;
+    if (!isNaN(title))
     {
         str += "Year: " + artwork.year + "<br>";
     }
