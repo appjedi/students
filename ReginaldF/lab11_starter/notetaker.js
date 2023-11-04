@@ -11,8 +11,8 @@ const newnoteField = document.getElementById("newnote");
 const noteSelection = document.getElementById("noteselection");
 const noteList = document.getElementById("notelist");
 const deleteButton = document.getElementById("delete");
+
 addButton.addEventListener('click', () => {
-    
     addNote(newnoteField.value);
 });
 
