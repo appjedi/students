@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Note Taker</title>
+    <link rel="stylesheet" type="text/css" href="./notetaker.css">
+</head>
+
+<body>
+    <header>
+        <h1>Note Taker</h1>
+    </header>
+    <main>
+
+        <div id="display-notes">
+            <h2>Notes:</h2>
+            <ul id="notelist">
+            </ul>
+        </div>
+
+        <div id="add-note">
+            <h2>Add Note:</h2>
+            <form>
+                <input type="text" id="newnote">
+                <button type="button" id="add">Add</button>
+            </form>
+        </div>
+
+        <div id="delete-note">
+            <h2>Delete Note:</h2>
+            <form>
+                <select id="noteselection">
+                </select>
+                <button type="button" id="delete">Delete</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="./notetaker.js"></script>
+</body>
+
+</html>
