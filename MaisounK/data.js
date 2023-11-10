@@ -6,7 +6,7 @@ const fs = require("fs");
 const YEAR = 2023;
 //console.log(fullDate("8/3"));
 
-loadFile("./data.tab");
+//loadFile("./data.tab");
 
 async function loadFile(fn)
 {
