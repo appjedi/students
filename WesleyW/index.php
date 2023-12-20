@@ -17,18 +17,20 @@
       $roleId = isset($_SESSION["roleId"]) ? $_SESSION["roleId"] :0;
       if($roleId==1) // admin
       {
-        echo "<p><a href='admin.php'>Admin Dashboard</a> | <a href='logout.php'>Logout</a></p>";
+        echo "<p><a href='admin.php'>Admin Dashboard</a> | <a href='logout.php'>Logout</a> | <a href='manage-items.php'>Manage Items</a></p>";
       }else if( $roleId == 0) {
-        echo "<p><a href='login.php'>Login</a></p>";
+        echo "<p><a href='login.php'>Login</a> | <a href='viewcart.php'>View Cart</a></p>";
       }else {
-        echo "<p><a href='customer.php'>Customer Dashboard</a> | <a href='logout.php'>Logout</a></p>";
+        echo "<p><a href='customer.php'>Customer Dashboard</a> | <a href='logout.php'>Logout</a> | <a href='viewcart.php'>View Cart</a></p>";
       }
       include_once("dao.php");
       $db = new Database();
       $items=$db->getItems();
     //  var_dump($items);
       foreach ($items as $item){
-        echo "<tr><td>" .$item['description'] . "</td><td>" . $item['price']. "</td><td>" . $item['quantity'] . "</td></tr>";
+        $id = $item['itemId'];
+        echo "<tr><td>" .$item['itemDescription'] . "</td><td>" . $item['price']. "</td><td>" . $item['quantity'] . "</td>"
+        . "<td><a href='add2cart.php?id=$id'>Add To Cart</a></td></tr>";
       }
 
     ?>

@@ -1,25 +1,39 @@
  <?php
 class Database
 {
+    private $conn=null;
     public function getConn($idx=1) 
     {
-        $dsn = "mysql:dbname=wesley;host=127.0.0.1;port=3306";
-        $user = "root";
-        $pwd = "Jedi2023";
-        $db = new PDO($dsn, $user, $pwd);
+        if($this->conn)
+        {
+            return $this->conn;
+        }
+        try {
+            $dsn = "mysql:dbname=dev;host=127.0.0.1;port=3306";
+            $user = "root";
+            $pwd = "Jedi2023";
+            $this->conn = new PDO($dsn, $user, $pwd);
 
-        return $db;
+            return $this->conn;
+        }catch (PDOException $ex)
+        {
+            return null;
+        }
     }
-
     public function query($query) {
-        $db = $this->getConn(2);
-        $stmt = $db->query($query);
+        try {
+            $db = $this->getConn();
+            $stmt = $db->query($query);
 
-        return $stmt;
+            return $stmt->fetchAll();
+        }catch (PDOException $ex)
+        {
+            return null;
+        }
     }
     public function exec ($sql, $values=null)
     {
-         $db = $this->getConn(2);
+         $db = $this->getConn();
          $stmt =$db->prepare($sql);
          $stmt->execute($values);
          return $stmt;
@@ -47,20 +61,10 @@ class Database
     }
     public function getItemsInCart ($items)
     {
-        $query = "SELECT * FROM items WHERE itemId IN ($items)";
-        $stmt = $this->query($query);
+       
+        $stmt = $this->query("SELECT * FROM items WHERE itemId IN ($items)");
         
         return $stmt->fetchAll();
-    }
-    function deleteItem ($id)
-    {
-        $delete = "DELETE FROM items WHERE itemId = ?";
-        $stmt = $this->exec($delete, [$id]);
-    }
-    function addItem ($values)
-    {
-        $insert = "INSERT INTO items(categoryId,itemDescription,price,quantity) VALUES(?,?,?,?)";
-        $stmt = $this->exec($insert, $values);
     }
     public function auth ($username, $password) {
         $stmt = $this->exec("SELECT * FROM users WHERE username=? AND password=?", [$username, $password]);
@@ -70,6 +74,16 @@ class Database
         }
         $user=$stmt->fetch();
         return $user["roleId"];
+    }
+    public function close()
+    {
+        try {
+            $conn->close();
+            $conn=null;
+        }catch (PDOException $ex)
+        {
+
+        }
     }
 }
 
