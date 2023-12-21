@@ -40,9 +40,7 @@ class Database
     }
     public function getItems ()
     {
-       
-        $stmt = $this->query("SELECT * FROM items ");
-        
+        $stmt = $this->query("SELECT * FROM items ");   
         return $stmt->fetchAll();
     }
     public function getItemsInCart ($items)
