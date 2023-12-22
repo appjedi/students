@@ -60,14 +60,50 @@ class Database
         $insert = "INSERT INTO items(categoryId,itemDescription,price,quantity) VALUES(?,?,?,?)";
         $stmt = $this->exec($insert, $values);
     }
+    function purchase ($cart, $customer)
+    {
+        try {
+            $values = [
+                $customer['lastName'], 
+                $customer['firstName'],
+                $customer['address'],
+                $customer['city'],
+                $customer['state'],
+                $customer['zipCode'],
+                $customer['creditCardNumber'],
+                $customer['creditCardExpDate'],
+                $customer['creditCardSecurityCode']
+            ];
+            $sql = "INSERT INTO orders(lastName,firstName,address,city,state,zipCode,creditCardNumber,creditCardExpDate,
+            creditCardSecurityNumber,dateOrdered)VALUES(?,?,?,?,?,?,?,?,?,SYSDATE());";
+            $db = $this->getConn(2);
+            $stmt =$db->prepare($sql);
+            $stmt->execute($values);
+            $orderId = $db->lastInsertId();
+            $items = explode(",", $cart);
+            $sql = "INSERT INTO order_item(orderId, itemId)VALUES(?,?);";
+            $stmt =$db->prepare($sql);
+            $ct=0;
+            foreach ($items as $itemId)
+            {
+                $stmt->execute([$orderId, $itemId]);
+                $ct++;
+            }
+            return $orderId;
+        }catch (PDOException $ex)
+        {
+            echo "Error:" . $ex;
+            return -1;
+        }
+    }
     public function auth ($username, $password) {
-        $stmt = $this->exec("SELECT * FROM users WHERE username=? AND password=?", [$username, $password]);
+        $stmt = $this->exec("SELECT userId, username,lastname,firstname,street,city,zip,roleId FROM users WHERE username=? AND password=?", [$username, $password]);
         if($stmt->rowCount() <1)
         {
-            return 0;
+            return null;
         }
         $user=$stmt->fetch();
-        return $user["roleId"];
+        return $user;
     }
 }
 

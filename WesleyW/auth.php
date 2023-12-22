@@ -5,12 +5,15 @@
       $password = $_POST['password'];
       include_once("dao.php");
       $db = new Database();
-      $roleId=$db->auth($username, $password);
+      $user=$db->auth($username, $password);
+     
 
-      if($roleId== 0){
+      if($user== null){
         echo "<h1>login failed</h1>";
       }
-      else if($roleId== 1){
+      $roleId=$user['roleId'];
+      $_SESSION['user']=$user;
+      if($roleId== 1){
         $_SESSION['roleId']=1;
         header("location: index.php");
       }else if($roleId== 2){

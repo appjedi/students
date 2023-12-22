@@ -11,7 +11,7 @@
   <body>
     <h1>General Good</h1>
     <table border="1">
-      <tr><th>Description</th><th>Price</th><th>Quantity</th></tr>
+      <tr><th>Description</th><th>Price</th><th>Quantity</th><th>Action</th></tr>
     <?php
       session_start();
       $roleId = isset($_SESSION["roleId"]) ? $_SESSION["roleId"] :0;
@@ -19,9 +19,9 @@
       {
         echo "<p><a href='admin.php'>Admin Dashboard</a> | <a href='logout.php'>Logout</a> | <a href='manage-items.php'>Manage Items</a></p>";
       }else if( $roleId == 0) {
-        echo "<p><a href='login.php'>Login</a> | <a href='viewcart.php'>View Cart</a></p>";
+        echo "<p><a href='login.php'>Login</a> | <a href='viewcart.php'>View Cart</a> | <a href='contact-us.html'>Contact Us</a></p>";
       }else {
-        echo "<p><a href='customer.php'>Customer Dashboard</a> | <a href='logout.php'>Logout</a> | <a href='viewcart.php'>View Cart</a></p>";
+        echo "<p><a href='customer.php'>Customer Dashboard</a> | <a href='logout.php'>Logout</a> | <a href='viewcart.php'>View Cart</a> | <a href='contact-us.html'>Contact Us</a></p>";
       }
       include_once("dao.php");
       $db = new Database();

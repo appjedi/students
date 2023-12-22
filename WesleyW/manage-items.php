@@ -22,11 +22,11 @@
   </head>
   <p><a href='index.php'>Home</a></p>
   <body>
-    <h1>General Good</h1>
+    <h1>Manage Items</h1>
     <table border="1">
       <tr><th>Description</th><th>Price</th><th>Quantity</th><th>Delete</th></tr>
 <?php
-    $cart = $_SESSION['cart'];
+    
     include_once("dao.php");
     $db = new Database();
     $items=$db->getItems();

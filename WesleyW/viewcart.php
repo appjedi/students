@@ -17,6 +17,7 @@
   </head>
   <body>
     <h1>General Good</h1>
+    <h2>Shopping Cart</h2>
     <table border="1">
       <tr><th>Description</th><th>Price</th></tr>
 <?php
@@ -35,7 +36,7 @@
     echo "<h3>Total $total</h3>";
 ?>
     
-<h1><a href='index.php'>Continue Shopping</a></h1>
+<h1><a href='index.php'>Continue Shopping</a> <a href='purchase.php'>Purchase</a></h1>
 
 </body>
 </html>
