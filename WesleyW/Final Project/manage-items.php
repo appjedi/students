@@ -34,7 +34,7 @@
     foreach ($items as $item){
         $id = $item['itemId'];
         echo "<tr><td>" .$item['itemDescription'] . "</td><td>" . $item['price']. "</td><td>" . $item['quantity'] . "</td>"
-        . "<td><a href='delete-item.php?id=$id'>Delete</a></td></tr>";
+        . "<td><a href='delete-item.php?id=$id'>Delete</a></td><td><a href='modify-item.php?id=$id'>Modify</a></td></tr>";
       }
     echo "</table>";
 ?>
@@ -48,7 +48,7 @@
         <option value='2'>Computers</option>
         <option value='3'>Clothing</option>
     </select>
-    Description: <input type='text' name='description' required/>
+    Description: <input type='text' name='itemDescription' required/>
     Price: <input type='number' name='price' required/>
     Quantity: <input type='number' name='quantity' required/>
       <button>Add Item</button>
