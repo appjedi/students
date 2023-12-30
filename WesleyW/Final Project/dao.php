@@ -55,6 +55,30 @@ class Database
         $delete = "DELETE FROM items WHERE itemId = ?";
         $stmt = $this->exec($delete, [$id]);
     }
+    function getItem($id)
+    {
+        try {
+            $select = "SELECT * FROM items WHERE itemId=?";
+            $stmt = $this->exec($select, [$id]);
+            return $stmt->fetch();
+        }catch (PDOException $ex)
+        {
+            echo "getItems($id) error:" . $ex;
+            return null;
+        }
+    }
+    function updateItem ($values)
+    {
+        try {
+            $update = "UPDATE items SET categoryId=?,itemDescription=?,price=?,quantity=? WHERE itemId=?";
+            $stmt = $this->exec($update, $values);
+
+        }catch (PDOException $ex)
+        {
+            echo "updateItem error:" . $ex;
+            return null;
+        }
+    }
     function addItem ($values)
     {
         $insert = "INSERT INTO items(categoryId,itemDescription,price,quantity) VALUES(?,?,?,?)";
