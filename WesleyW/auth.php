@@ -7,7 +7,6 @@
       $db = new Database();
       $user=$db->auth($username, $password);
      
-
       if($user== null){
         echo "<h1>login failed</h1>";
       }
