@@ -12,10 +12,10 @@
       }
       $roleId=$user['roleId'];
       $_SESSION['user']=$user;
-      if($roleId== 1){
+      if($roleId==1){
         $_SESSION['roleId']=1;
         header("location: index.php");
-      }else if($roleId== 2){
+      }else if($roleId==2){
         $_SESSION['roleId']=2;
         header("location: index.php");
       }
