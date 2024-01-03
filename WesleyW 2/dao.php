@@ -10,7 +10,6 @@ class Database
 
         return $db;
     }
-
     public function query($query) {
         $db = $this->getConn(2);
         $stmt = $db->query($query);
@@ -20,7 +19,7 @@ class Database
     public function exec ($sql, $values=null)
     {
          $db = $this->getConn(2);
-         $stmt =$db->prepare($sql);
+         $stmt = $db->prepare($sql);
          $stmt->execute($values);
          return $stmt;
     }
