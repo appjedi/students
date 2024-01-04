@@ -1,6 +1,9 @@
 require("dotenv").config()
 const { Sequelize, DataTypes } = require('sequelize');
 const path = require('path');
+const bodyParser = require('body-parser');
+const express = require("express");
+const session = require('express-session');
 
 const sequelize = new Sequelize(
     process.env.DB_NAME,
@@ -31,9 +34,7 @@ const execute = async (query, values) => {
 }
 
 const port = 2024;
-const bodyParser = require('body-parser');
-const express = require("express");
-const session = require('express-session');
+
 const app = express();
 app.use(session({ secret: 'XASDASDA' }));
 
@@ -59,8 +60,10 @@ app.get("/release", (req, res) => {
 });
 
 app.get('/login', (req, res) => {
+    const msg = req.query['msg']==undefined?"":req.query['msg'];
+
   const form =
-    `<html><head><title>login</title></head><body>
+    `<html><head><title>login</title></head><body><h3>${msg}
    <h1>Login Page </h1><p>${GC_RELEASE}</p>
    <form method="POST" action="/login">
     Username:<br><input type="text" name="username">
@@ -81,7 +84,7 @@ app.post('/login', async (req, res) => {
     res.send({ auth: auth });
 
   } else {
-      res.redirect("/login");
+      res.redirect("/login?msg=Failed login");
   }
 });
 app.get('/register', (req, res) => {
