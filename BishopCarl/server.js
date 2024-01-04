@@ -2,28 +2,27 @@ require("dotenv").config()
 const { Sequelize, DataTypes } = require('sequelize');
 const path = require('path');
 
-
- const sequelize = new Sequelize(
-            "dev",
-            "root",
-            "Jedi2023",
-            {
-                host: "127.0.0.1",
-                dialect: "mysql"
-            }
-        );
-const query=async(query, values)=> {
-        const results = await sequelize.query(query, {
-            replacements: values, type: sequelize.QueryTypes.SELECT
-        });
-        console.log(results);
-        return results;
+const sequelize = new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASS,
+    {
+        host: process.env.DB_HOST,
+        dialect: "mysql"
     }
+);
+const query=async(query, values)=> {
+    const results = await sequelize.query(query, {
+        replacements: values, type: sequelize.QueryTypes.SELECT
+    });
+    //console.log(results);
+    return results;
+}
 const execute=async(query, values)=> {
-        const results = await sequelize.query(query, {
-            replacements: values
-        });
-        return results;
+    const results = await sequelize.query(query, {
+        replacements: values
+    });
+    return results;
 }
 
 const port = 2024;
