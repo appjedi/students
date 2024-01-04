@@ -18,11 +18,16 @@ const query=async(query, values)=> {
     //console.log(results);
     return results;
 }
-const execute=async(query, values)=> {
-    const results = await sequelize.query(query, {
-        replacements: values
-    });
-    return results;
+const execute = async (query, values) => {
+    try {
+        const results = await sequelize.query(query, {
+            replacements: values
+        });
+        return results;
+    } catch (ex) {
+        console.log("ERROR:", ex);
+        return {status:-1, message:"Failed"}
+    }
 }
 
 const port = 2024;
@@ -79,7 +84,32 @@ app.post('/login', async (req, res) => {
       res.redirect("/login");
   }
 });
+app.get('/register', (req, res) => {
+  const form =
+    `<html><head><title>login</title></head><body>
+   <h1>Login Page </h1><p>${GC_RELEASE}</p>
+   <form method="POST" action="/register">
+    Username:<br><input type="text" name="username">
+    <br>Password:<br><input type="text" name="password">
+    <br><br><input type="submit" value="Submit"></form></body></html>`;
 
+  res.send(form);
+
+});
+app.post('/register', async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  console.log("/register:", username);
+  const auth =await register(username, password);
+  if (auth.id>0) {
+    ssn = req.session;
+    ssn.user = auth;
+    res.send({ auth: auth });
+
+  } else {
+      res.redirect("/login");
+  }
+});
 
 async function login(u, p) {
   try {
@@ -100,7 +130,18 @@ async function login(u, p) {
     return null;
   }
 }
-
+async function register(u, p) {
+  try {
+    const insert = `INSERT INTO users (username, password, role_id, status, createDt) VALUES(?,?,1,1,SYSDATE())`;
+    console.log("LOGIN:", insert);
+    const results = await execute(insert, [u,p]);
+    console.log(results);
+      return results;
+  } catch (e) {
+    console.log("ERROR:", e);
+    return null;
+  }
+}
 app.get("/user/logout", (req, res) => {
 
   //  ssn=req.session;
