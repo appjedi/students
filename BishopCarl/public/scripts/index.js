@@ -6,4 +6,4 @@ const pageLoad = async () => {
 }
 
 
-pageLoad();
+//pageLoad();
