@@ -2,6 +2,12 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Hacker {
+    public static void main(String[] args) {
+        // utopianTree(2, 4);
+        int[] a = { 1, 2, 3, 4, 5, 6, 7 };
+        int n = 7;
+        findZigZagSequence(a, n);
+    }
 
     public static void main1(String[] args) throws java.lang.Exception {
         Scanner kb = new Scanner(System.in);
@@ -31,13 +37,6 @@ public class Hacker {
 
         // Display the lexicographically smallest zig-zag sequence
         System.out.println("Lexicographically smallest zig-zag sequence: " + Arrays.toString(array));
-    }
-
-    public static void main(String[] args) {
-        // utopianTree(2, 4);
-        int[] a = { 1, 2, 3, 4, 5, 6, 7 };
-        int n = 7;
-        findZigZagSequence(a, n);
     }
 
     // 1 2 3 7 6 5 4
