@@ -53,7 +53,7 @@ app.use(express.static('public'));
 const GC_PUBLIC_DIR = path.join(__dirname + '/public/index.html').split("/index.html")[0];
 
 let ssn;
-const GC_RELEASE = "2024-01-05";
+const GC_RELEASE = "2024-01-19";
 app.get("/", (req, res) => {
   //ssn = req.session;
   console.log("root");

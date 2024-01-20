@@ -8,12 +8,12 @@ const mongoLocalURL = "mongodb://localhost:27017";
 const client = new MongoClient(mongoLocalURL);
 const path = require('path');
 
-const getCollection = async(collectionName)=> {
+const getCollection = async (collectionName) => {
   let conn;
   try {
     conn = await client.connect();
     console.log("connected");
-    const db =  conn.db("local");
+    const db = conn.db("local");
     return db.collection(collectionName);
   } catch (e) {
     console.error(e);
@@ -21,7 +21,7 @@ const getCollection = async(collectionName)=> {
   }
 }
 
-const port = 2024;
+const port = 4000;
 
 const app = express();
 app.use(session({ secret: 'XASDASDA' }));
@@ -36,10 +36,10 @@ const GC_PUBLIC_DIR = path.join(__dirname + '/public/index.html').split("/index.
 
 
 let ssn;
-const GC_RELEASE = "2024-01-05";
+const GC_RELEASE = "2024-01-19";
 app.get("/", (req, res) => {
-    //ssn = req.session;
-    console.log("root");
+  //ssn = req.session;
+  console.log("root");
   res.send(GC_RELEASE);
 });
 app.get("/release", (req, res) => {
@@ -48,7 +48,7 @@ app.get("/release", (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    const msg = req.query['msg']==undefined?"":req.query['msg'];
+  const msg = req.query['msg'] == undefined ? "" : req.query['msg'];
 
   const form =
     `<html><head><title>login</title></head><body><h3>${msg}
@@ -65,20 +65,20 @@ app.post('/login', async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   console.log("/login:", username);
-  const auth =await login(username, password);
-  if (auth!==null) {
+  const auth = await login(username, password);
+  if (auth !== null) {
     ssn = req.session;
     ssn.user = auth;
-    res.send({ auth: auth });
-
+    //res.send({ auth: auth });
+    res.sendFile(GC_PUBLIC_DIR + "/dashboard.html");
   } else {
-      res.redirect("/login?msg=Failed login");
+    res.redirect("/login?msg=Failed login");
   }
 });
 app.get('/register', (req, res) => {
   const form =
-    `<html><head><title>login</title></head><body>
-   <h1>Login Page </h1><p>${GC_RELEASE}</p>
+    `<html><head><title>Register</title></head><body>
+   <h1>Register </h1><p>${GC_RELEASE}</p>
    <form method="POST" action="/register">
     Username:<br><input type="text" name="username">
     <br>Password:<br><input type="text" name="password">
@@ -91,17 +91,43 @@ app.post('/register', async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   console.log("/register:", username);
-  const auth =await register(username, password);
-  if (auth.id>0) {
+  const auth = await register(username, password);
+  if (auth.id > 0) {
     ssn = req.session;
     ssn.user = auth;
     res.send({ auth: auth });
 
   } else {
-      res.redirect("/login");
+    res.redirect("/login");
   }
 });
+app.get("/contactus", async (req, res) => {
+  res.sendFile(GC_PUBLIC_DIR + "/contactus.html");
 
+})
+app.post("/contactus", async (req, res) => {
+  const data = {
+    fullName: req.body.fullName,
+    email: req.body.email,
+    phone: req.body.phone,
+    message: req.body.message,
+    received: new Date()
+  }
+  console.log("Post Contact:", data);
+  const resp = await contactus(data);
+  console.log("RESP FROM MONGO", resp);
+  res.send(resp);
+});
+const contactus = async (contact) => {
+  try {
+    const doc = await getCollection("contactus");
+    doc.insertOne(contact);
+    return { status: 200, message: "Contact Sent", contact: contact };
+  } catch (e) {
+    console.log("ERROR:", e);
+    return { status: 500, message: "Error sending contact", error: e, contact: contact };
+  }
+}
 async function login(u, p) {
   try {
     const doc = await getCollection("users");
@@ -110,8 +136,8 @@ async function login(u, p) {
 
     const user = await doc.findOne(query);
     console.log(user);
-    if (user.password === p)
-    {
+    if (user.password === p) {
+      user.password = "********";
       return user;
     } else {
       return null;
@@ -124,11 +150,11 @@ async function login(u, p) {
 async function register(u, p) {
   try {
     const dt = new Date()
-    const user = {username:u, password:p, roleId:1, status:1, created:dt}
+    const user = { username: u, password: p, roleId: 1, status: 1, created: dt }
     console.log("register:", user);
     const doc = await getCollection("users");
     doc.insertOne(user);
-      return {status:1, message:"created"};
+    return { status: 1, message: "created" };
   } catch (e) {
     console.log("ERROR:", e);
     return null;

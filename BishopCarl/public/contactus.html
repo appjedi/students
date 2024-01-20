@@ -11,30 +11,30 @@
 
 <body>
   <h1>Contact Us</h1>
-  <form method="POST" action="contactus">
+  <form method="POST" action="" onSubmit="return false;">
     <p>
       Full Name:<br />
-      <input type="text" name="fullName" />
+      <input type="text" name="fullName" id="fullName" />
     </p>
     <p>
       Email:<br />
-      <input type="email" name="email" />
+      <input type="email" name="email" id="email" />
     </p>
     <p>
       Phone:<br />
-      <input type="text" name="phone" />
+      <input type="text" name="phone" id="phone" />
     </p>
     <p>
       Message:<br />
-      <textarea name="message"></textarea>
+      <textarea name="message" id="message"></textarea>
     </p>
     <p>
-      <button>Send</button>
+      <button onClick="sendContact()">Send</button>
     </p>
   </form>
   <div id="divContent"></div>
 </body>
 
-<script src="scripts/index.js"></script>
+<script src="scripts/contactus.js"></script>
 
 </html>
