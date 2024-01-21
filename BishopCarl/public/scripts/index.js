@@ -5,5 +5,7 @@ const pageLoad = async () => {
     divContent.innerHTML = "JavaScript from Page Load";
 }
 
+const sendContact = async () => {
 
+}
 //pageLoad();
