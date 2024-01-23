@@ -98,5 +98,6 @@ function palindromeIndex(s) {
     }
     return -1;
 } 
+
 console.log ( palindromeIndex("csbc"))
 //console.log(flipMatrix());
