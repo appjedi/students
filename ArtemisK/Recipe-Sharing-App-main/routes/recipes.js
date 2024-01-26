@@ -1,11 +1,12 @@
 const express = require('express');//import express and create router
 const router = express.Router();
-
+const { models } = require('../models');
 // define routes for recipes
 
 
-router.get('/', (req, res) => { //this route gets all recipes
-  res.send('Get all recipes');
+router.get('/', async (req, res) => { //this route gets all recipes
+  const data = await models.Recipe.findAll();
+  res.send('Get all recipes', data);
 });
 
 router.get('/:id', (req, res) => { //this route will get a recipe based on the ID

@@ -9,6 +9,7 @@ const authMiddleware = require('./middleware/authMiddleware');
 const routes = require('./controllers/recipeController');
 const dashboardRoutes = require('./routes/dashboardRoutes'); // Replace with your actual dashboard routes
 const recipeRoutes = require('./routes/recipes.js');// Spoonacular API Routing
+const cors = require('cors');
 const PORT = process.env.PORT || 3001;
 const apiKey = process.env.SPOONACULAR_API_KEY;
 
@@ -29,7 +30,7 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 app.use(session({
-  secret: process.env.SESSION_SECRET, 
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
 }));
