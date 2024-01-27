@@ -34,10 +34,10 @@ const recipeController = {
         instructions,
       });
       const recipes = await Recipe.findAll({ raw: true });
-      res.send({ status: 1, message: "Recipe Added", recipes: recipes });
+      res.send({ status: 200, message: "Recipe Added", recipes: recipes });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ status: -1, message: "Error adding", recipes: null });
+      res.status(500).send({ status: 500, message: "Error adding", recipes: null });
     }
   },
   putRecipe: async (req, res) => {
@@ -53,10 +53,10 @@ const recipeController = {
       // this is for creating a new recipe in the db
 
       const recipes = await Recipe.findAll({ raw: true });
-      res.send({ status: 1, message: "Recipe Updated", recipes: recipes });
+      res.send({ status: 200, message: "Recipe Updated", recipes: recipes });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ status: -1, message: "Error saving", recipes: null });
+      res.status(500).send({ status: 500, message: "Error saving", recipes: null });
     }
   }
 }
