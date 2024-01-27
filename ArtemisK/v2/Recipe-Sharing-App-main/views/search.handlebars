@@ -1,0 +1,26 @@
+<form id="recipe-search-form">
+    <input type="text" name="query" placeholder="Search for recipes...">
+    <button type="submit">Search</button>
+</form>
+
+<div id="search-results">
+    <!-- Search results will be displayed here -->
+</div>
+
+<script>
+document.getElementById('recipe-search-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const query = this.query.value;
+    const response = await fetch(`/api/recipes/search?q=${query}`);
+    const data = await response.json();
+
+    const resultsContainer = document.getElementById('search-results');
+    resultsContainer.innerHTML = ''; // Clear previous results
+
+    data.results.forEach(recipe => {
+        const div = document.createElement('div');
+        div.innerHTML = `<h3>${recipe.title}</h3><img src="${recipe.image}" alt="${recipe.title}">`;
+        resultsContainer.appendChild(div);
+    });
+});
+</script>

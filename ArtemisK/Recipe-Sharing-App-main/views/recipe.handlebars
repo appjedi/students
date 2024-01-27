@@ -1,0 +1,45 @@
+<h1>Recipe</h1>
+
+<form method="post" action="/recipes">
+    <input type="text" name="title" id="title" placeholder="Title" />
+    <button>Submit</button>
+
+    <input type="button" value="POST" onClick="postRecipe()" />
+</form>
+<ul>
+    <ul class="people_list">
+        {{#each recipes}}
+        <li>{{title}}</li>
+        {{/each}}
+    </ul>
+</ul>
+<script>
+    console.log("recipe form");
+    const test = "{{test}}";
+    const date = "{{date}}"
+
+    let recipes;
+    const pageLoad = async () => {
+        console.log("recipes:", recipes);
+        const resp = await fetch("/recipes");
+        recipes = await resp.json();
+        console.log("recipes:", recipes);
+    }
+    const postRecipe = async () => {
+        console.log("postRecipe");
+        const data = { title: document.getElementById("title").value }
+        console.log("DATA:", data);
+        const resp = await fetch("/recipes",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+        const json = await resp.json();
+
+        console.log(json);
+    };
+    pageLoad();
+</script>

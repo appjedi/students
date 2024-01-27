@@ -1,0 +1,87 @@
+<h1>Dashboard:</h1>
+<style>
+    form {
+        margin-left: 10%;
+    }
+</style>
+<form method="post" action="recipes">
+    <div>
+        Title:<br />
+        <input type="text" name="title" id="title" />
+    </div>
+    <div>
+        Ingredients:<br />
+        <input type="text" name="ingredients" id="ingredients" />
+    </div>
+    <div>
+        Instructions:<br />
+        <input type="text" name="instructions" id="instructions" />
+    </div>
+    <div>
+        <button>Add</button>
+        <input type="button" onClick="sendRecipe()" value="Save" />
+    </div>
+</form>
+<div id="recipeList">
+
+    <ul class="people_list">
+        {{#each recipes}}
+        <li><a href='javascript:getRecipe({{id}})'>{{title}}</a></li>
+        {{/each}}
+
+    </ul>
+</div>
+<script>
+    let recipeId = 0;
+    const title = document.getElementById("title");
+    const ingredients = document.getElementById("ingredients");
+    const instructions = document.getElementById("instructions");
+    const recipeList = document.getElementById("recipeList");
+    let recipes;
+    const sendRecipe = async () => {
+        const data = {
+            title: title.value,
+            ingredients: ingredients.value,
+            instructions: instructions.value
+        }
+
+        const method = recipeId === 0 ? "POST" : "PUT";
+        const url = "/api/recipes" + (recipeId === 0 ? "" : "/" + recipeId);
+        console.log(url);
+
+        const resp = await fetch(url, {
+            method: method,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data)
+        })
+        const json = await resp.json();
+        alert(json.message);
+        if (json.status === 1) {
+            recipes = json.recipes;
+            renderRecipeList();
+        }
+        console.log("sendRecipe:", json);
+    }
+    const getRecipe = async (id) => {
+        const resp = await fetch("/api/recipes/" + id);
+        const data = await resp.json();
+        console.log("DATA:", data);
+        recipeId = data.id;
+        title.value = data.title;
+        ingredients.value = data.ingredients;
+        instructions.value = data.instructions;
+    }
+    const renderRecipeList = () => {
+        let list = '<ul class="people_list">';
+
+        for (let r of recipes) {
+            console.log(r);
+            const li = `<li><a href='javascript:getRecipe(${r.id})'>${r.title}</a></li>`;
+            list += li;
+        }
+        console.log(list)
+        recipeList.innerHTML = list + "</ul>";
+    }
+</script>
