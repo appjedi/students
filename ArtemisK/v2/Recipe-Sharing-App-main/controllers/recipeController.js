@@ -22,6 +22,7 @@ const recipeController = {
       res.status(500).send('Error');
     }
   },
+  // 
   postRecipe: async (req, res) => {
     try {
       // this is for a form where users can fill out with title, ingredients, and instructions
