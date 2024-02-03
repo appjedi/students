@@ -59,8 +59,16 @@ const recipeController = {
       console.error(error);
       res.status(500).send({ status: 500, message: "Error saving", recipes: null });
     }
+  },
+  search: async (req, res) => {
+    try {
+
+    }
+    catch (error) {
+      console.error(error);
+      res.status(500).send({ status: 500, message: "Error saving", recipes: null });
+    }
   }
-}
 // Defining routes for recipe functions
 
 

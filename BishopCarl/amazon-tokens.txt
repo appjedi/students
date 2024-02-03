@@ -1,0 +1,2 @@
+image: s-product-image-container aok-relative s-text-center s-image-overlay-grey
+price: a-link-normal s-no-hover s-underline-text s-underline-link-text s-link-style a-text-normal

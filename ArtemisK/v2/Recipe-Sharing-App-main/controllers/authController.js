@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt'); // bcrypt is for hashing passwords, making them more secure
 const { User } = require('../models');
-
+// NodeSequelizeBcryptHandlebars
 const authController = {
   // Defining the login function
   login: async (req, res) => {

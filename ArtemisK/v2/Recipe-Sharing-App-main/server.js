@@ -49,7 +49,9 @@ app.use('/dashboard', authMiddleware, dashboardRoutes);// use authMiddleware to 
 app.use('/recipes', recipeRoutes);
 app.use('/api/recipes', recipeRoutes);
 app.use('/user', userRoutes);
-
+app.get("/", (req, res) => {
+  res.send("Hello");
+})
 // Sync the database and start the server
 sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => {
