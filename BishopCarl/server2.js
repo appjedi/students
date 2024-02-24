@@ -161,7 +161,6 @@ async function register(u, p) {
   }
 }
 app.get("/user/logout", (req, res) => {
-
   //  ssn=req.session;
   ssn.userId = undefined;
   ssn.token = undefined;
