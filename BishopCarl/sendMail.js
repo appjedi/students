@@ -1,6 +1,6 @@
 "use strict";
 const nodemailer = require("nodemailer");
-const path = require("path");
+const path = require("path"); require
 const props = {
     "from": "App Jedi <appjedi.net@gmail.com>",
     "user": "appjedi.net@gmail.com",

@@ -1,13 +1,12 @@
-from six.moves import urllib2
+import requests
+from bs4 import BeautifulSoup
 
 token1='s-product-image-container aok-relative s-text-center s-image-overlay-grey'
 
 def parse(url):
-    response=urllib2.urlopen(url)
-    text = response.read()
+    response=requests.get(url)
     #text ='Hello' #response.content
-    ##text = response.content
-
+    text = BeautifulSoup(response.text,'html.parser')
     # find the index of is
     token='is'
     #print (response.content)
