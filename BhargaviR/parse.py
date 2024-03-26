@@ -17,15 +17,16 @@ def parse(url):
 
 def post():
     url = "http://www.armedicalboard.org/Public/directory/AdvancedDirectorySearch.aspx"
-    values={"ctl00$MainContentPlaceHolder$lbBoxdirSearchLicType":"PA"}
-
+    values={"ctl00$MainContentPlaceHolder$lbBoxdirSearchLicType":"PA",
+            "__VIEWSTATE":""
+            }
 
     x = requests.post(url, json = values)
 
     print(x.text)
-url = "https://www.amazon.com/s?k=sweaters&crid=2AXGFL9J3XCR2&sprefix=sweaters%2Caps%2C157&ref=nb_sb_noss_1"
+    url = "https://www.amazon.com/s?k=sweaters&crid=2AXGFL9J3XCR2&sprefix=sweaters%2Caps%2C157&ref=nb_sb_noss_1"
 #post()
-parse("http://www.armedicalboard.org/public/directory/results.aspx?PHIDNO=ASMB212819")
+    parse("http://www.armedicalboard.org/public/directory/results.aspx?PHIDNO=ASMB212819")
 def test():
     text = 'Python is fun'
 
@@ -35,3 +36,4 @@ def test():
     print(result)
 
     # Output: 7
+   # database-1.cfk22y2mi17x.us-east-1.rds.amazonaws.com
